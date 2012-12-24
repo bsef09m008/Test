@@ -1,0 +1,284 @@
+<html>
+<body>
+
+<script>
+//Homework 1
+//BSEF09M039 
+
+var buttonWidth=50;
+var buttonHeight=50;
+var Result=0;
+var CurrentVal=0;
+var ImmediateMode=false;
+var Operation="";
+
+function ClearEverything()
+{
+	inputBx.value="0";
+	 Operation="";
+	 Result=0;
+	 CurrentVal=0;
+	 ImmediateMode=false;
+}
+function SubmitToInputForm(input) {
+		if (input.target.innerHTML == ".")
+		{
+				if (inputBx.value.indexOf(".")!= -1)
+				return ;
+		}
+		
+		if (ImmediateMode==true)
+		{
+			inputBx.value=input.target.innerHTML;
+			CurrentVal=parseFloat(inputBx.value);
+			ImmediateMode=false;
+		}
+		else
+		{
+		if (inputBx.value == "0")
+			inputBx.value=input.target.innerHTML;
+			else
+			inputBx.value= inputBx.value + input.target.innerHTML; 
+			CurrentVal=parseFloat(inputBx.value);
+		}
+		
+}
+function ReverseSign()
+{
+	if (ImmediateMode == true)
+	{
+	Equals();
+	}
+	CurrentVal=-CurrentVal;
+	inputBx.value = CurrentVal;
+}
+function FullEquals()
+{
+	Equals();
+	ImmediateMode=true;
+	//CurrentVal=0;
+}
+function back()
+{	
+	if (ImmediateMode==false)
+	{
+		//inputBx.value[inputBx.value.length-1]='';
+		var str = inputBx.value.toString();
+		str=str.slice(0,inputBx.value.length-1);
+		inputBx.value=str;
+		CurrentVal=parseFloat(str);
+	}
+	
+}
+function Equals()
+{
+	if (Operation != "")
+	{
+		if (Operation == "+")
+		
+		CurrentVal =  CurrentVal + Result;
+		else if (Operation == "-")
+		CurrentVal =   Result-CurrentVal ;
+		else if (Operation == "*")
+		CurrentVal =  CurrentVal * Result;
+		else if (Operation == "/")
+		CurrentVal =   Result/CurrentVal;
+		inputBx.value = CurrentVal;
+		Operation="";
+	
+	}
+
+}
+function HandleOperator(input)
+{
+			Equals();
+		
+			ImmediateMode=true;
+			Operation= input.target.innerHTML;
+			Result=CurrentVal;
+			CurrentVal=0;
+			inputBx.value = inputBx.value + " " + Operation + " ";
+			
+		
+	
+
+}
+var inputBx = document.createElement("input");
+	inputBx.setAttribute('id','txt');
+	inputBx.setAttribute('type','text');
+	inputBx.setAttribute('value','0');
+	inputBx.style.width=4*50;
+	inputBx.style.height=buttonHeight;
+	
+	
+var bt1=document.createElement("button");
+	bt1.setAttribute('id','1');
+	bt1.innerHTML="1";
+	bt1.style.width=buttonWidth;
+	bt1.style.height=buttonHeight;
+//	bt1.onclick=function(){ inputBx.value= inputBx.value + 1;  CurrentVal=parsefloat(inputBx.value);  };
+	
+	bt1.addEventListener('click', SubmitToInputForm, false);
+
+var bt2=document.createElement("button");
+	bt2.setAttribute('id','2');
+	bt2.innerHTML="2";
+	bt2.style.width=buttonWidth;
+	bt2.style.height=buttonHeight;
+	bt2.addEventListener('click', SubmitToInputForm, false);
+var bt3=document.createElement("button");
+	bt3.setAttribute('id','3');
+	bt3.innerHTML="3";
+	bt3.style.width=buttonWidth;
+	bt3.style.height=buttonHeight;
+	bt3.addEventListener('click', SubmitToInputForm, false);
+var bt4=document.createElement("button");
+	bt4.setAttribute('id','4');
+	bt4.innerHTML="4";
+	bt4.style.width=buttonWidth;
+	bt4.style.height=buttonHeight;
+	bt4.addEventListener('click', SubmitToInputForm, false);
+var bt5=document.createElement("button");
+	bt5.setAttribute('id','5');
+	bt5.innerHTML="5";
+	bt5.style.width=buttonWidth;
+	bt5.style.height=buttonHeight;
+	bt5.addEventListener('click', SubmitToInputForm, false);
+var bt6=document.createElement("button");
+	bt6.setAttribute('id','6');
+	bt6.innerHTML="6";
+	bt6.style.width=buttonWidth;
+	bt6.style.height=buttonHeight;
+	bt6.addEventListener('click', SubmitToInputForm, false);
+var bt7=document.createElement("button");
+	bt7.setAttribute('id','7');
+	bt7.innerHTML="7";
+	bt7.style.width=buttonWidth;
+	bt7.style.height=buttonHeight;
+	bt7.addEventListener('click', SubmitToInputForm, false);
+var bt8=document.createElement("button");
+	bt8.setAttribute('id','8');
+	bt8.innerHTML="8";
+	bt8.style.width=buttonWidth;
+	bt8.style.height=buttonHeight;
+	bt8.addEventListener('click', SubmitToInputForm, false);
+var bt9=document.createElement("button");
+	bt9.setAttribute('id','9');
+	bt9.innerHTML="9";
+	bt9.style.width=buttonWidth;
+	bt9.style.height=buttonHeight;
+	bt9.addEventListener('click', SubmitToInputForm, false);
+var bt0=document.createElement("button");
+	bt0.setAttribute('id','0');
+	bt0.innerHTML="0";
+	bt0.style.width=buttonWidth;
+	bt0.style.height=buttonHeight;
+	bt0.addEventListener('click', SubmitToInputForm, false);
+	var btPlus=document.createElement("button");
+	btPlus.setAttribute('id','Plus');
+	btPlus.innerHTML="+";
+	btPlus.style.width=buttonWidth;
+	btPlus.style.height=buttonHeight;
+	btPlus.addEventListener('click', HandleOperator, false);
+	
+	var btMinus=document.createElement("button");
+	btMinus.setAttribute('id','Minus');
+	btMinus.innerHTML="-";
+	btMinus.style.width=buttonWidth;
+	btMinus.style.height=buttonHeight;
+	btMinus.addEventListener('click', HandleOperator, false);
+	
+	var btMult=document.createElement("button");
+	btMult.setAttribute('id','Multiply');
+	btMult.innerHTML="*";
+	btMult.style.width=buttonWidth;
+	btMult.style.height=buttonHeight;
+	btMult.addEventListener('click', HandleOperator, false);
+	
+	var btDiv=document.createElement("button");
+	btDiv.setAttribute('id','Div');
+	btDiv.innerHTML="/";
+	btDiv.style.width=buttonWidth;
+	btDiv.style.height=buttonHeight;
+	btDiv.addEventListener('click', HandleOperator, false);
+	
+	var btC=document.createElement("button");
+	btC.setAttribute('id','C');
+	btC.innerHTML="C";
+	btC.style.width=buttonWidth;
+	btC.style.height=buttonHeight;
+	btC.addEventListener('click', ClearEverything, false);
+	
+	
+	var btPoint=document.createElement("button");
+	btPoint.setAttribute('id','point');
+	btPoint.innerHTML=".";
+	btPoint.style.width=buttonWidth;
+	btPoint.style.height=buttonHeight;
+	btPoint.addEventListener('click', SubmitToInputForm, false);
+	
+	var btEqual=document.createElement("button");
+	btEqual.setAttribute('id','equal');
+	btEqual.innerHTML="=";
+	btEqual.style.width=buttonWidth;
+	btEqual.style.height=buttonHeight;
+	btEqual.addEventListener('click', FullEquals, false);
+	
+	var btCE=document.createElement("button");
+	btCE.setAttribute('id','CE');
+	btCE.innerHTML="CE";
+	btCE.style.width=buttonWidth;
+	btCE.style.height=buttonHeight;
+	btCE.addEventListener('click', ClearEverything, false);
+	
+	var btBack=document.createElement("button");
+	btBack.setAttribute('id','back');
+	btBack.innerHTML="<-";
+	btBack.style.width=buttonWidth;
+	btBack.style.height=buttonHeight;
+	btBack.addEventListener('click', back, false);
+	
+	
+	var btPM=document.createElement("button");
+	btPM.setAttribute('id','PlusMinus');
+	btPM.innerHTML="±";
+	btPM.style.width=buttonWidth;
+	btPM.style.height=buttonHeight;
+	btPM.addEventListener('click', ReverseSign, false);
+	
+document.body.appendChild(inputBx);	
+document.body.appendChild(document.createElement("BR"));
+document.body.appendChild(btC);
+document.body.appendChild(btCE);
+document.body.appendChild(btBack);
+document.body.appendChild(btPM);
+document.body.appendChild(document.createElement("BR"));
+document.body.appendChild(bt1);
+document.body.appendChild(bt2);
+document.body.appendChild(bt3);
+document.body.appendChild(btPlus);
+document.body.appendChild(document.createElement("BR"));
+document.body.appendChild(bt4);
+document.body.appendChild(bt5);
+document.body.appendChild(bt6);
+document.body.appendChild(btMinus);
+
+document.body.appendChild(document.createElement("BR"));
+document.body.appendChild(bt7);
+document.body.appendChild(bt8);
+document.body.appendChild(bt9);
+document.body.appendChild(btMult);
+
+document.body.appendChild(document.createElement("BR"));
+document.body.appendChild(bt0);
+document.body.appendChild(btPoint);
+document.body.appendChild(btEqual);
+document.body.appendChild(btDiv);
+
+var PrevOperation=null;
+
+
+
+</script>
+</body>
+</html>
