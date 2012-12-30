@@ -1,0 +1,59 @@
+﻿@{
+    Page.Title = "Home";
+
+    var db = Database.Open("shopping");
+    var products = db.Query("SELECT * FROM PRODUCTS").ToList();
+    var featured = products[new Random().Next(products.Count)];
+}
+
+<link href="~/Slider/js-image-slider.css" rel="stylesheet" type="text/css" />
+<script src="~/Slider/js-image-slider.js" type="text/javascript"></script>
+                
+<div id="slider">
+    <img src="~/Images/slide-1.jpg" alt="Accessories">
+    <img src="~/Images/slide-2.jpg" alt="Eye Wear">
+</div>
+<hr>
+<h1>Welcome to FS-Clothing!</h1>
+<!--
+<div id="featuredProduct">
+    <img alt="Featured Product" src="~/Images/Products/Thumbnails/@featured.ImageName"/>
+    <div id="featuredProductInfo">
+        <div id="productInfo">
+            <h2>@featured.Name</h2>
+            <p class="price">Rs @string.Format("{0:f}", featured.Price)</p>
+            <p class="description">@featured.Description</p>
+        </div>
+        <div id="callToAction">
+            <a class="order-button" href="~/order/@featured.Id" title="Order @featured.Name">Order Now</a>
+        </div>
+    </div>
+</div>
+-->
+
+<div id="productsWrapper">
+    <ul id="products" data-role="listview" data-inset="true">
+        @foreach (var p in products) {
+            <li class="product">
+                <a href="~/Showcase/@p.Id" title="View @p.Name">
+                    <img class="hide-from-desktop" src="~/Images/Products/@p.ImageName" alt="Image of @p.Name" />
+                
+                    <div class="productInfo">
+                        <h3>@p.Name</h3>
+                        <img class="product-image hide-from-mobile" src="~/Images/Products/@p.ImageName" alt="Image of @p.Name"/>
+                        <p class="description">@p.Description</p>
+                        <p class="price hide-from-desktop">@string.Format("{0:f}", p.Price)</p>                    
+                    </div>
+                </a>
+
+                <!-- Desktop only -->
+                <div class="action  hide-from-mobile">
+                    <p class="price">Rs @string.Format("{0:f}", p.Price)</p>
+                    <a class="order-button" href="~/Showcase/@p.Id" title="View @p.Name">DETAILS</a>
+                </div>
+                 
+            </li>
+
+        }
+    </ul>
+</div>

@@ -1,0 +1,92 @@
+﻿@section Scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/FancyZoom.js" type="text/javascript"></script>
+<script src="~/Scripts/FancyZoomHTML.js" type="text/javascript"></script>
+}
+
+@{
+    Page.Title = "Place Your Order";
+   
+    var db = Database.Open("shopping");
+    var productId = UrlData[0].AsInt();
+    var product = db.QuerySingle("SELECT * FROM PRODUCTS WHERE ID = @0", productId);
+    if (product == null) 
+    {
+        Response.Redirect("~/");
+    }
+      if (IsPost) 
+      {
+          Session["product"]=productId;
+        Response.Redirect("~/Cart");
+      }
+}
+
+<ol id="orderProcess">
+    <li><span class="step-number">1</span>Choose Item</li>
+    <li class="current"><span class="step-number">2</span>Add to Cart</li>
+    <li><span class="step-number">3</span>Receipt</li>
+</ol>
+<h1>Add to Cart: @product.Name</h1>
+<form action="" method="post">
+    @Html.ValidationSummary(excludeFieldErrors: true)
+
+    <fieldset class="no-legend">
+        <legend>Add to Cart</legend>
+        <a href="~/Images/Products/@product.ImageName"><img class="product-image order-image" src="~/Images/Products/Thumbnails/@product.ImageName" alt="Image of @product.Name"/></a>
+        
+        <ul class="orderPageList" data-role="listview">
+            <li>
+                <div>
+                    <p class="description">@product.Description</p>
+                </div>                
+            </li>
+            
+            <li>
+                <div>
+                    <select name="size" id="size">
+                        <option value="null">Select Your Size</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                        <option value="x-large">X-Large</option>
+                    </select>
+                </div>
+            </li>
+            <li class="quantity">
+                <div class="fieldcontainer" data-role="fieldcontain">
+                    <label for="orderQty">Quantity</label>
+                    <input type="text" id="orderQty" name="orderQty" value="1"/>
+                    x
+                    <span id="orderPrice">@string.Format("{0:f}", product.Price)</span>
+                    =
+                    <span id="orderTotal">@string.Format("{0:f}", product.Price)</span>
+                </div>
+            </li>
+        </ul>
+        <p class="actions">
+            <input type="hidden" name="ProductId" value="@product.Id" />
+            <input type="submit" value="ADD TO CART" data-role="none" data-inline="true"/>
+                       
+        </p>
+    </fieldset>
+</form>
+
+<script type="text/javascript">
+    $(function () {
+        var price = parseFloat($("#orderPrice").text()).toFixed(2),
+            total = $("#orderTotal"),
+            orderQty = $("#orderQty");
+
+        orderQty.change(function () {
+            var quantity = parseInt(orderQty.val());
+            if (!quantity || quantity < 1) {
+                orderQty.val(1);
+                quantity = 1;
+            } else if (quantity.toString() !== orderQty.val()) {
+                orderQty.val(quantity);
+            }
+            total.text("$" + (price * quantity).toFixed(2));
+        });
+    });
+</script>

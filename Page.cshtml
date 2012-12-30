@@ -1,0 +1,14 @@
+﻿@{ 
+   var productPrice = 99.99m; 
+   var supplierAmount = decimal.Round(productPrice * .10m, 2);
+   var MyStore = new PayPal.AdaptivePayments.Receiver(); 
+   
+   MyStore.amount = productPrice; 
+   MyStore.email = "faisal_1356104636_per@hotmail.com";
+     var Suppliers = new List<PayPal.AdaptivePayments.Receiver>(); 
+      var Supplier = new PayPal.AdaptivePayments.Receiver();
+      Supplier.email = "faisal_1356104729_biz@hotmail.com";
+      Supplier.amount = supplierAmount; Suppliers.Add(Supplier);
+      var response = PayPal.AdaptivePayments.ChainedPay.Execute(MyStore, Suppliers, "", "Test Payment", "127.0.0.1", "MyDevice");
+      response.Redirect();
+}

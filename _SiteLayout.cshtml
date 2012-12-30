@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>FS-Clothing - @Page.Title</title>
+        <link href="~/Content/Site.css" rel="stylesheet" />
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <script src="~/Scripts/modernizr-2.5.3.js"></script>
+        <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+        @RenderSection("Scripts", required: false)
+    </head>
+    <body onload="setupZoom()">
+        <div id="float-right" style="float: right">
+                    <section id="login">
+                        @if (WebSecurity.IsAuthenticated) 
+                        {
+                            
+                            <text>
+                                Hello, <a class="email" href="~/Account/Manage" title="Manage">@WebSecurity.CurrentUserName</a>!
+                                <form id="logoutForm" action="~/Account/Logout" method="post">
+                                    @AntiForgery.GetHtml()
+                                    <a href="javascript:document.getElementById('logoutForm').submit()">Log out</a>
+                                </form>
+                            </text>
+                            if(Roles.IsUserInRole("Admin"))
+                            {
+                                <a href="~/Admin/Admin.cshtml">Admin Panel</a>
+                            }
+                            else
+                            {
+                                <text>
+                                You are Logged in as a standard user!
+                                </text>
+                            }
+                        }
+                        </section>
+            </div>
+        <div id="page">
+            <header>
+                <p class="site-title"><a href="~/">FS-Clothing</a></p>
+                <nav>
+                    <ul>
+                        <li><a href="~/">Home</a></li>
+                        <li><a href="~/About">About Us</a></li>
+                        <li><a href="~/Women">Women</a></li> 
+                        <li><a href="~/Accessories">Accessories</a></li> 
+                        <li><a href="~/">Press</a></li>
+                        <li><a href="~/Contact">Support</a></li>
+                        <li><a href="https://www.facebook.com/FaixalGhaffar" target="_blank">Faisal Ghaffar</a></li>
+                    </ul>
+                </nav>
+            </header>
+            <div id="body">
+                @RenderBody()
+            </div>
+            <div id="foobar">
+                <footer>              
+                    <ul>
+                        <li>&copy;@DateTime.Now.Year - Faisal Ghaffar</li>
+                        <li><a href="~/FooterLinks">Warrenty & Support</a></li> 
+                        <li><a href="~/FooterLinks">Refund & Exchange</a></li> 
+                        <li><a href="~/FooterLinks">Shipping info</a></li> 
+                        <li><a href="~/FooterLinks">Privacy Policy</a></li>
+                        <li><a href="~/About">About Us</a></li>
+                        <li><a href="~/Contact">Contact Us</a></li> 
+                    </ul>
+                </footer>
+          </div>
+        </div>
+
+        
+
+    </body>
+</html>

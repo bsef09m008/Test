@@ -1,0 +1,53 @@
+﻿@section Scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+@{
+    if(!Roles.IsUserInRole("Admin"))
+    {
+        Response.Redirect("~/Account/Login.cshtml");
+    }
+    Page.Title="Delete Product";
+
+             Validation.RequireField("target", "You can't leave it blank");
+             var db=Database.Open("shopping");
+             var products="";
+    
+    if(IsPost)
+    {
+        if (Validation.IsValid())
+                { 
+                        var val="%"+Request["target"]+"%";
+                        var q="select * from Products where Id Like @0 OR Name Like @0 OR Description Like @0 OR Price Like @0 OR Category Like @0";
+                        var records = db.Query(q,val).ToList();
+                        records.ToString(); 
+                       
+                        foreach (var p in records) 
+                        {
+                            <ul id="searchtodelete">                               
+                                <li><h4>@p.Id|</h4></li>
+                                 <li><h4>@p.Name|</h4></li>
+                                 <li><h4>@p.Price|</h4></li>
+                                <li><h4>@p.Description|</h4></li>
+                                <li><h4>@p.Category</h4></li>
+                                <li><img src="~/Images/Products/Thumbnails/@p.ImageName" alt="aa" style="width: 40px"></li> 
+                                <li><a href="~/Admin/DeleteProduct/@p.Id" title="DeleteProduct">Delete</a></li>                              
+                             </ul>
+                                  <hr> 
+                         }
+                         
+                        //db.Close();  
+                }         
+    }
+}
+<form method="post">
+<div>
+    <h1>Search to Delete.</h1>
+
+             <label>Enter Product Name, Price, Description or Category to search: </label>
+             <input type="text" name="target"   @Validation.For("target")>
+             <input type="submit" value="Search">
+              @Html.ValidationMessage("target")
+</div>
+<br>
+</form>

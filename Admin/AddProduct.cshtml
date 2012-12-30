@@ -1,0 +1,120 @@
+﻿@section Scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+@{
+    if(!Roles.IsUserInRole("Admin"))
+    {
+        Response.Redirect("~/Account/Login.cshtml");
+    }
+    Page.Title="Add Product";
+
+    var message ="";
+    var Name="";
+    var Desc="";
+    var Price=0;
+    var cat="";
+        //Setup Validations
+
+        Validation.RequireField("Name", "You must specify the Name for item.");
+        Validation.RequireField("Description", "You must specify the Description.");
+        //Validation.RequireField("ifile", "You must choose an image");
+        Validation.RequireField("Price", "You must specify Price.");
+
+    if(IsPost)
+    {
+        AntiForgery.Validate();       
+       
+        if(Request.Files.Count > 0)
+        {
+            WebImage image = WebImage.GetImageFromRequest();
+            if(image != null)
+            {
+                var path="~/Images/Products/";
+                var thumbPath="~/Images/Products/Thumbnails/";
+                var imageFileName = Path.GetFileName(image.FileName);
+                var imageGuid = Guid.NewGuid().ToString();
+                var fileName = imageGuid + "_" + imageFileName;
+                var location = Path.Combine(path, fileName);
+                var thumbLocation = Path.Combine(thumbPath, fileName);
+                image.Save(location, "jpg");
+                image.Resize(300, 300, preventEnlarge: true);
+                image.Save(thumbLocation, "jpg"); 
+                
+                //Into the data base
+                 if (Validation.IsValid())
+                 {
+                        var db=Database.Open("shopping");
+                        var q="insert into Products(Name,Price,Description,ImageName,Category) values(@0,@1,@2,@3,@4)";
+                        Name=Request["Name"];
+                        Desc=Request["Description"];
+                        Price=Convert.ToInt32( Request["Price"]);
+                        cat=Request["category"];
+                        db.Execute(q,Name,Price,Desc,fileName,cat);
+                        db.Close();
+                        message="Item Added Successfully!";
+                        <div class="message info"><p>@message</p></div>
+                  }
+            }
+            else
+            {
+                //message="Unsuccessful. Item Not Added";
+                ModelState.AddFormError("");
+            }
+        }
+         
+    }
+}
+        <h1>Add Product</h1>
+        <form method="post" enctype="multipart/form-data">
+             @AntiForgery.GetHtml()
+             @* If at least one validation error exists, notify the user *@
+             @Html.ValidationSummary("Unsuccessful. Please correct the errors and try again.", excludeFieldErrors: false, htmlAttributes: null)
+             <br>
+        <div class="addproduct">
+           
+                    <div>
+                        <label>Name</label>
+                        <input type="text" name="Name" placeholder="Product Name" value="@Name" @Validation.For("Name")>
+                        @* Write any Name validation errors to the page *@
+                        @Html.ValidationMessage("Name")
+                    </div>            
+                    
+                   <div>
+                       <label>Category</label>
+                        <select name="category">
+                            <option>Men</option>
+                            <option>Women</option>
+                            <option>Accessories</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                       <label>Description</label>
+                       <input type="text" name="Description" placeholder="Product Description" value="@Desc" @Validation.For("Description")>
+                        @* Write any Name validation errors to the page *@
+                        @Html.ValidationMessage("Description") 
+                    </div>
+                                
+                    <div>
+                       <label>Price</label>
+                       <input type="text" name="Price" placeholder="Product Price" value="@Price" @Validation.For("Price")>
+                        @* Write any Name validation errors to the page *@
+                        @Html.ValidationMessage("Price")
+                     </div>
+                                    
+                    <div id="file">
+                            <label>Image</label>
+                            <input type="file" name="ifile">
+                    </div> 
+                    
+                    <div id="buttons">
+                         <input type="submit" value="SAVE">
+                    </div>                   
+            </div>
+            </form>
+                    
+                     
+
+    </body>
+</html>

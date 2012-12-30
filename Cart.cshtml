@@ -1,0 +1,58 @@
+﻿@{  
+    var list= new List<int>();
+    Session["cart"]="";
+ }
+@{
+    Page.Title="Shopping Cart";
+    var db = Database.Open("shopping");
+    var productId = Session["product"];
+    var product = db.QuerySingle("SELECT * FROM PRODUCTS WHERE ID = @0", productId);
+    if (product == null) 
+    {
+        Response.Redirect("~/");
+    }
+    
+      list.Add(Convert.ToInt32(productId));  
+      Session["cart"]=productId;
+      /*var cart = (List<int>)Session["Cart"];
+      foreach (var Product in list)
+      {
+         cart.Add(product);
+         Session["Cart"] = cart;
+      }*/
+}
+
+<h1>Shopping Cart</h1>
+<div> <!--class="custombutton">-->
+        <a href="~/" style="margin-left: 760px">CONTINUE SHOPPING</a>
+</div>
+<hr>
+<div class="cartheader">
+    
+    <label style="margin-left: 45px">Product Name</label>
+    <label style="margin-left: 27em">Unit Price</label>
+    <!--
+    <label style="margin-left: 4em">Quantity</label>
+    <label style="margin-left: 4em">Total</label>
+    -->
+</div>
+
+<div>
+  
+          @{
+              var a=Session["cart"];
+              for(int i=0; i<list.Count; i++)
+              {
+                 var cartproduct = db.QuerySingle("SELECT * FROM PRODUCTS WHERE ID = @0",Convert.ToInt16(a));
+                  <label style="margin-left: 45px">@cartproduct.Name</label>
+                  <label style="margin-left: 43em">@cartproduct.Price</label>
+                  <br>
+              }
+          }
+
+   <hr>
+       
+    <a class="cartheader" href="~/Order/@productId">PROCEED TO CHECKOUT</a>
+          
+</div>
+<br>

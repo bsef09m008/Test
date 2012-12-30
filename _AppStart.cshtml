@@ -1,0 +1,31 @@
+﻿@{
+    WebSecurity.InitializeDatabaseConnection("shopping", "UserProfile", "UserId", "Email", autoCreateTables: true);
+      
+       PayPal.Profile.Initialize( 
+       "faisal_1356104729_biz_api1.hotmail.com", 
+       "1356104749", 
+       "AFcWxV21C7fd0v3bYYYRCpSSRl31ApoLsrXxpyKhJMgqoCiAZmFOC51C", 
+       "sandbox"); 
+       // General Adaptive Payments’ properties 
+       PayPal.Profile.Language = "en_US"; 
+       PayPal.Profile.CancelUrl = "http://www.mystore.com/ohtoobad.cshtml"; 
+       PayPal.Profile.ReturnUrl = "http://www.mystore.com/thanks.cshtml"; 
+       PayPal.Profile.IpnUrl = "http://www.mystore.com/notifications.cshtml"; 
+       PayPal.Profile.CurrencyCode = "USD";
+
+
+        //SMTP Configuration for Hotmail
+        WebMail.SmtpServer = "smtp.live.com";
+        WebMail.SmtpPort = 25;
+        WebMail.EnableSsl = true;
+
+        //Enter your Hotmail credentials for UserName/Password and a "From" address for the e-mail
+        WebMail.UserName = "fsclothing_f09@hotmail.com";
+        WebMail.Password = "Shuja007$";
+        WebMail.From = "fsclothing_f09@hotmail.com";
+
+        AppState["cart"]=new List<int>();
+        
+
+          
+}

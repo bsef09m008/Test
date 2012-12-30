@@ -1,0 +1,63 @@
+﻿@section Scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+@{
+    if(!Roles.IsUserInRole("Admin"))
+    {
+        Response.Redirect("~/Account/Login.cshtml");
+    }
+    Page.Title="Delete Product";
+
+    Validation.RequireField("ID", "You must specify ID.");
+    var photoId = UrlData[0].AsInt();
+    var id=photoId;
+    var nor=0;
+    var db=Database.Open("shopping");
+    //var searched=false;
+    if(IsPost)
+    {
+                AntiForgery.Validate();
+                //deleting from database
+                if (Validation.IsValid())
+                {
+                    
+                        id=Convert.ToInt32(Request["ID"]);
+                        var q="delete from Products where Id=@0";
+                        nor=db.Execute(q,id);
+                        if(nor>0)
+                        {
+                                <div class="message info"><p>Product Deleted!</p></div>
+                        }
+                        else
+                        {
+                            //ModelState.AddFormError("No product found!");
+                            <div class="message info"><p style="color: #f00">No Item found. Product not deleted!</p></div>
+                        }
+                        db.Close();  
+                }         
+    }
+}
+
+        <h1>Delete Product</h1>
+        
+        <form method="post" enctype="multipart/form-data">
+             @AntiForgery.GetHtml()
+        <div class="addproduct">            
+                   <div>
+                        <label>Product ID</label>
+                        <input type="text" name="ID" placeholder="Product Id" value="@id" @Validation.For("ID")>
+                        @Html.ValidationMessage("ID")
+                   </div> 
+                    
+                    <div id="buttons">
+                       <input type="submit" value="DELETE">
+                    </div>
+            <hr>
+                <div style="text-align: center">
+                    <a href="~/Admin/SearchToDelete" >Search Item to Delete</a>
+                    <hr>
+                    <br>
+                </div>
+            </div>
+            </form> 

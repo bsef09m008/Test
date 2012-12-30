@@ -1,0 +1,41 @@
+﻿@{
+    PageData["PageTitle"] = "Your shopping cart";
+    
+    var items = new string[0];
+    var itemIds = new int[0];
+
+    if(Request.Cookies["cart"] != null && Request.Cookies["cart"]["items"] != null && Request.Cookies["cart"]["items"].Length > 0)
+    {
+        items = Request.Cookies["cart"]["items"].Split(',');
+        itemIds = items.Select(x => int.Parse(x)).ToArray();
+    }
+    
+    //var itemRepository = new ItemRepository();
+}
+<script>
+    $(function(){
+        $("button").click(function(){
+            var itemId = $(this).attr("value");
+            // ajax post
+            $.post("/Cart/partial/removeFromCart.cshtml", { itemId: itemId }, 
+                // success
+                function(){
+                    $("li#" + itemId).hide();
+                    var cartItemsCount = parseInt($("#cartItemsCount").html());
+                    cartItemsCount--;
+                    $("#cartItemsCount").html(cartItemsCount);
+            });
+        });
+    });
+</script>
+<div>
+    <ul>
+    @foreach(var itemId in itemIds)
+    {
+        <li id="@itemId">
+            @*@itemRepository.Get(itemId).Title*@
+            <button type="button" id="removeItem" value="@itemId">Remove</button>
+        </li>
+    }
+    </ul>
+</div>

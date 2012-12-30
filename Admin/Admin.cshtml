@@ -1,0 +1,20 @@
+﻿@{
+    
+    if(!Roles.IsUserInRole("Admin"))
+    {   
+        Response.Redirect("~/Account/Login.cshtml");
+        <script type="text/javascript">
+            alert("You cannot access the requested page! You need to be the Admin to Access the page!");
+        </script>
+        
+    }
+        <h1>Welcome to Admin Panel</h1>
+        <div id="NavigationA">
+            <ul>
+             <li><a href="~/Admin/AddProduct.cshtml">Add Product</a></li>
+             <li><a href="~/Admin/DeleteProduct.cshtml">Delete Product</a></li>
+             <li><a href="~/Admin/AddUsersToRoles.cshtml">Add User To Role</a></li> 
+             <li><a href="~/Admin/CreateRole.cshtml">Create Role</a></li>
+            </ul>
+        </div>
+}

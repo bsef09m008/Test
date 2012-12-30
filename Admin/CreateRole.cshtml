@@ -1,0 +1,61 @@
+﻿@{
+    
+    if(!Roles.IsUserInRole("Admin"))
+    {
+        Response.Redirect("~/Account/Login.cshtml");
+    }
+
+        Page.Title="Create Role";
+        Validation.RequireField("role", "You must specify some role.");
+        //Validation.RequireFields("role","Error");
+    
+    var message = "";
+    var role = Request.Form["role"];
+    if(IsPost)
+    {
+        AntiForgery.Validate();
+        
+        if(!role.IsEmpty())
+        {
+            if(!Roles.RoleExists(role))
+            {
+                if (Validation.IsValid())
+                {
+                    Roles.CreateRole(role);
+                    message = role + " added as Role";
+                     <div class="message info"><p>@message</p></div>
+                }
+            }
+            else
+            {
+                message = "That role already exists";
+            }
+        }
+        else
+        {
+            message="You Cant Leave the Role Field Empty. Please Enter Some Role";
+            <div class="message info"><p>@message</p></div>
+        }
+    }
+}
+<form method="post">
+
+    @AntiForgery.GetHtml()
+
+<fieldset>
+    <legend>Create Role</legend>
+        <div>
+            <label for="role">Role</label>
+        </div>
+
+        <div>
+            <input type="text" name="role" value="@Request["role"]" @Validation.For("role")/>
+             @Html.ValidationMessage("role")
+        </div>
+
+        <div>
+            <input type="submit" value="ADD"/>
+        </div>
+
+        </fieldset>
+</form>
