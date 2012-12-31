@@ -2,7 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>My Mobile Web Page - @Page.Title</title> 
+        <title>FaiSal - @Page.Title</title>
+        <meta property="fb:admins" content="1093938643" />
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">        
         <link rel="stylesheet" href="~/Content/jquery.mobile-1.0.min.css" />
         <link rel="stylesheet" href="~/Content/Site.mobile.css" />
@@ -11,15 +12,20 @@
         <script src="~/Scripts/jquery.mobile-1.0.min.js"></script>
         @RenderSection("Scripts", required: false)
     </head>
-    <body>
+    <body onload="setupZoom()">
         <div data-role="page" data-theme="m">
             <div data-role="header" data-theme="m">
-                <h1 id="header"><a href="~/"><img src="~/Images/brand.png" alt="Fourth Coffee" style="max-width: 100%;" width="340px"/></a></h1>
+                <h1 id="header"><a href="~/"><img src="~/Images/fslogo.png" alt="FaiSal-Clothing" style="max-width: 100%;" width="340px"/></a></h1>
 
                 <div id="nav" data-role="navbar">
                     <ul>
                         <li><a href="~/" data-theme="c">Home</a></li>
                         <li><a href="~/About/" data-ajax="false" data-theme="c">About Us</a></li>
+                        <li><a href="/Women">Women</a></li> 
+                        <li><a href="/Accessories">Accessories</a></li> 
+                        <li><a href="/">Press</a></li>
+                        <li><a href="/Contact">Support</a></li>
+                        <li><a href="https://www.facebook.com/FaixalGhaffar" target="_blank">Faisal Ghaffar</a></li>
                     </ul>
                 </div>
             </div>
@@ -27,9 +33,20 @@
             <div data-role="content" data-theme="m">    
                 @RenderBody()
             </div>
+
+            <div id="foobar">
             <footer>
-                &copy;@DateTime.Now.Year - Fourth Coffee
+                    <ul>
+                        &copy;@DateTime.Now.Year - Faisal Ghaffar
+                        <li><a href="~/FooterLinks">Warrenty & Support</a></li> 
+                        <li><a href="~/FooterLinks">Refund & Exchange</a></li> 
+                        <li><a href="~/FooterLinks">Shipping info</a></li> 
+                        <li><a href="~/FooterLinks">Privacy Policy</a></li>
+                        <li><a href="~/About">About Us</a></li>
+                        <li><a href="~/Contact">Contact Us</a></li>  
+                    </ul>
             </footer>
+            </div>
         </div>
     </body>
 </html>
