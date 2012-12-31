@@ -620,3 +620,25 @@ and (max-width : 320px) {
 .field-validation-valid {
     display: none;
 }
+/*-----------------------------Custom-----------------------------*/
+#foobar ul { 
+        margin: 0; 
+        padding: 5px; 
+        list-style-type: none; 
+        text-align: center; 
+        background-color: #3b3420; 
+        } 
+ 
+#foobar ul li {  
+        display: inline-block; 
+        } 
+ 
+#foobar ul li a { 
+        padding: 0.2em 2em; 
+        color: #fff; 
+        font-family: Calibri;
+        text-decoration: none;
+        } 
+#foobar ul li a:hover { 
+        text-decoration: underline;
+        }
