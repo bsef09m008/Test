@@ -36,11 +36,11 @@
         @foreach (var p in products) {
             <li class="product">
                 <a href="~/Showcase/@p.Id" title="View @p.Name">
-                    <img class="hide-from-desktop" src="~/Images/Products/@p.ImageName" alt="Image of @p.Name" />
+                    <img class="hide-from-desktop" src="~/Images/Products/Thumbnails/@p.ImageName" alt="Image of @p.Name" />
                 
                     <div class="productInfo">
                         <h3>@p.Name</h3>
-                        <img class="product-image hide-from-mobile" src="~/Images/Products/@p.ImageName" alt="Image of @p.Name"/>
+                        <img class="product-image hide-from-mobile" src="~/Images/Products/Thumbnails/@p.ImageName" alt="Image of @p.Name"/>
                         <p class="description">@p.Description</p>
                         <p class="price hide-from-desktop">@string.Format("{0:f}", p.Price)</p>                    
                     </div>
