@@ -9,7 +9,7 @@
     <ul id="products" data-role="listview" data-inset="true">
         @foreach (var p in products) {
             <li class="product">
-                <a href="~/Showcase/@p.Id" title="Order @p.Name">
+                <a href="~/Showcase/@p.Id" title="View @p.Name">
                     <img class="hide-from-desktop" src="~/Images/Products/@p.ImageName" alt="Image of @p.Name" />
                 
                     <div class="productInfo">
@@ -23,7 +23,7 @@
                 <!-- Desktop only -->
                 <div class="action  hide-from-mobile">
                     <p class="price">Rs @string.Format("{0:f}", p.Price)</p>
-                    <a class="order-button" href="~/Showcase/@p.Id" title="Order @p.Name">Order Now</a>
+                    <a class="order-button" href="~/Showcase/@p.Id" title="Order @p.Name">DETAILS</a>
                 </div>
                  
             </li>
