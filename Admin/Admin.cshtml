@@ -1,5 +1,7 @@
 ﻿@{
     
+    Page.Title="Admin Panel";
+
     if(!Roles.IsUserInRole("Admin"))
     {   
         Response.Redirect("~/Account/Login.cshtml");
