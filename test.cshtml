@@ -1,0 +1,36 @@
+@{
+    
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+    </head>
+    <body>
+        @*
+        @Request.ServerVariables["remote_host"]
+        @HttpContext.Current.Request.ServerVariables["REMOTE_HOST"];
+        @HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];*@
+        @{
+          string server = Request.ServerVariables["SERVER_NAME"];
+            string url = Request.ServerVariables["URL"];
+            string querystring = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            string a1 = Request.ServerVariables["http_user_agent"];
+            @a1;
+              @querystring;
+
+    }
+        <ul>
+        @foreach(var v in Request.ServerVariables)
+        {
+            string x= (string)v;
+            var a = Request.ServerVariables[x];
+            <li>(@v)----@a</li>
+        }
+            </ul>
+
+            </body>
+</html>
